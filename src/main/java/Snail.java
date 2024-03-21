@@ -1,118 +1,130 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Snail {
+    public static void main(String[] args) {
+        int[][] z = new int[][] {
+                {1, 2, 3, 4, 5},
+                {6, 7, 8, 9, 10},
+                {11, 12, 13, 14, 15},
+                {16, 17, 18, 19, 20},
+                {21, 22, 23, 24, 25}
+        };
+        flattenSnail(z);
+    }
 
-    /**
-     *
-     * TODO 5
-     *
-     * Input: an n x n 2d array.
-     * Output: a 1d array of length n^2 that contains the order of elements visited in a snail traversal of the 2d array.
-     *
-     * Example:
-     *
-     * Input:
-     *
-     * {
-     *     {1,2,3},
-     *     {4,5,6},
-     *     {7,8,9}
-     * }
-     *
-     * Output:
-     *
-     * {1,2,3,6,9,8,7,4,5}
-     *
-     * @param array2d
-     * @return a 1d array containing the order of elements visited in a snail traversal of the 2d array.
-     *         returns an empty array if array2d is not square.
-     */
     public static int[] flattenSnail(int[][] array2d) {
-        return null;
+        int[] emptyArray = new int[0];
+        if (array2d == null || !isPerfectSquare(array2d)) {
+            return emptyArray;
+        }
+
+        List<Integer> snailList = new ArrayList<>();
+        int row = 0;
+        int col = 0;
+        int rowCount = array2d.length;
+        int colCount = array2d[0].length;
+
+        while (snailList.size() < array2d.length * array2d[0].length) {
+            for (int i = 0; i < colCount; i++) {
+                snailList.add(array2d[row][col]);
+                col++;
+            }
+            col--;
+            row++;
+            colCount--;
+
+            for (int i = 0; i < rowCount - 1; i++) {
+                snailList.add(array2d[row][col]);
+                row++;
+            }
+            row--;
+            col--;
+            rowCount--;
+
+            for (int i = 0; i < colCount; i++) {
+                snailList.add(array2d[row][col]);
+                col--;
+            }
+            col++;
+            row--;
+            colCount--;
+
+            for (int i = 0; i < rowCount - 2; i++) {
+                snailList.add(array2d[row][col]);
+                row--;
+            }
+            row++;
+            col++;
+            rowCount--;
+        }
+
+        int[] snailArray = snailList.stream().mapToInt(Integer::intValue).toArray();
+        return snailArray;
     }
 
-    /**
-     *
-     * TODO 6
-     *
-     * Input: a 1d array of length n, where n is a perfect square.
-     * Output: a 2d array of width == height == sqrt(n) that represents a snail.
-     *
-     * Example:
-     *
-     * Input:
-     *
-     * {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25};
-     *
-     * Output:
-     *
-     * {
-     *     {1,2,3,4,5},
-     *     {16,17,18,19,6},
-     *     {15,24,25,20,7},
-     *     {14,23,22,21,8},
-     *     {13,12,11,10,9},
-     * }
-     *
-     *
-     * @param array1d
-     * @return a 2d array of width == height == sqrt(n), where n is the length of the inputted array, that represents a snail.
-     *         returns an empty 2d array if the length of array1d is not a perfect square.
-     */
     public static int[][] makeSnail(int[] array1d) {
-        return null;
+        int[][] emptyArray = new int[0][0];
+        if (array1d == null || !isPerfectSquare(array1d)) {
+            return emptyArray;
+        }
+
+        int size = (int) Math.sqrt(array1d.length);
+        int[][] snailArray = new int[size][size];
+        int row = 0;
+        int col = 0;
+        int rowCount = size;
+        int colCount = size;
+        int index = 0;
+
+        while (index < array1d.length) {
+            for (int i = 0; i < colCount; i++) {
+                snailArray[row][col] = array1d[index];
+                col++;
+                index++;
+            }
+            col--;
+            row++;
+            colCount--;
+
+            for (int i = 0; i < rowCount - 1; i++) {
+                snailArray[row][col] = array1d[index];
+                row++;
+                index++;
+            }
+            row--;
+            col--;
+            rowCount--;
+
+            for (int i = 0; i < colCount; i++) {
+                snailArray[row][col] = array1d[index];
+                col--;
+                index++;
+            }
+            col++;
+            row--;
+            colCount--;
+
+            for (int i = 0; i < rowCount - 2; i++) {
+                snailArray[row][col] = array1d[index];
+                row--;
+                index++;
+            }
+            row++;
+            col++;
+            rowCount--;
+        }
+
+        return snailArray;
     }
 
-    /**
-     *
-     * TODO 1
-     *
-     * Private helper method that prints the contents of a 1d array.
-     * Used mainly for debugging purposes.
-     *
-     * @param array1d
-     */
-    private static void print1dArray(int[] array1d) {
-
-    }
-
-    /**
-     *
-     * TODO 2
-     *
-     * Private helper method that prints the contents of a 2d array.
-     * Used mainly for debugging purposes.
-     *
-     * @param array2d
-     */
-    private static void print2dArray(int[][] array2d) {
-
-    }
-
-    /**
-     *
-     * TODO 3
-     *
-     * Private helper method that checks to see if a 1d array is of a length that is a perfect square.
-     *
-     * @param array1d
-     * @return
-     */
-    private static boolean isPerfectSquare(int[] array1d) {
-        return false;
-    }
-
-
-    /**
-     *
-     * TODO 4
-     *
-     * Private helper method that checks to see if a 2d array is a square.
-     *
-     * @param array2d
-     * @return
-     */
     private static boolean isPerfectSquare(int[][] array2d) {
-        return false;
+        int length = array2d.length;
+        return Math.sqrt(length) % 1 == 0;
     }
 
-
+    private static boolean isPerfectSquare(int[] array1d) {
+        int length = array1d.length;
+        return Math.sqrt(length) % 1 == 0;
+    }
 }
